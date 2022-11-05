@@ -15,27 +15,18 @@ public class JpaMain {
         tx.begin();
 
         try {
-//            Member member = new Member();
-//            member.setId(1L);
-//            member.setName("HelloA");
-//            member.setId(2L);
-//            member.setName("HelloB");
+            // 비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
 
-//            Member findMember = em.find(Member.class, 1L);
-//            findMember.setName("HelloJPA");
-
-            // JPQL
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(8)
-                    .getResultList();
-
-            for (Member member : result) {
-                System.out.println("member.name = " + member.getName());
-            }
-
-//            em.persist(member);
-            tx.commit();
+            // 영속
+            System.out.println("=== BEFORE ===");
+            em.persist(member); // 영속성 컨텍스트에서 관리되는 상태
+            em.detach(member);  // 영속성 컨텍스트에 저장되었다가 지워진 상태
+            System.out.println("=== AFTER ===");
+            
+            tx.commit();    // 영속성 컨텍스트가 DB에 저장되는 시점
         } catch (Exception e) {
             tx.rollback();
         } finally {
