@@ -15,17 +15,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 비영속
-            Member member = new Member();
-            member.setId(100L);
-            member.setName("HelloJPA");
-
             // 영속
-            System.out.println("=== BEFORE ===");
-            em.persist(member); // 영속성 컨텍스트에서 관리되는 상태
-            em.detach(member);  // 영속성 컨텍스트에 저장되었다가 지워진 상태
-            System.out.println("=== AFTER ===");
+//            Member findMember1 = em.find(Member.class, 101L);   // DB에서 조회
+//            Member findMember2 = em.find(Member.class, 101L);   // 1차 캐시에 저장된 데이터 조회 (DB조회 X)
+//            System.out.println(findMember1 == findMember2); // 영속 엔티티의 동일성 보장
+
+            Member member = em.find(Member.class, 150L);
+            member.setName("ZZZZZ");    // 업데이트 시, Dirty checking(변경 감지) 기능으로 인해 em.persist(member); 코드 불필요
+//            em.persist(member);
             
+            System.out.println("=====================");
+
             tx.commit();    // 영속성 컨텍스트가 DB에 저장되는 시점
         } catch (Exception e) {
             tx.rollback();
