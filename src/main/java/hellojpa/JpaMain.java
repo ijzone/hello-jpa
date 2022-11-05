@@ -16,14 +16,10 @@ public class JpaMain {
 
         try {
             // 영속
-//            Member findMember1 = em.find(Member.class, 101L);   // DB에서 조회
-//            Member findMember2 = em.find(Member.class, 101L);   // 1차 캐시에 저장된 데이터 조회 (DB조회 X)
-//            System.out.println(findMember1 == findMember2); // 영속 엔티티의 동일성 보장
+            Member member = new Member(200L, "member200");
+            em.persist(member);
 
-            Member member = em.find(Member.class, 150L);
-            member.setName("ZZZZZ");    // 업데이트 시, Dirty checking(변경 감지) 기능으로 인해 em.persist(member); 코드 불필요
-//            em.persist(member);
-            
+            em.flush(); // flush 기능으로 인해 DB에 바로 반영된다. flush를 호출한다고 해도 캐시에 있는 데이터가 지워지는 건 아니다.
             System.out.println("=====================");
 
             tx.commit();    // 영속성 컨텍스트가 DB에 저장되는 시점
