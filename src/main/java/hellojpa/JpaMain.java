@@ -22,17 +22,18 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-//            member.setTeamId(team.getId());
             member.setTeam(team);   // 객체 연관관계 매핑
             em.persist(member);
 
+            em.flush();
+            em.clear();
+
             Member findMember = em.find(Member.class, member.getId());
-//            Long findTeamId = findMember.getTeamId();
-//            Team findTeam = em.find(Team.class, findTeamId);
-            Team findTeam = findMember.getTeam();   // 객체 연관관계 매핑
-            System.out.println("findTeam = " + findTeam.getName());
+            List<Member> members = findMember.getTeam().getMembers();
 
-
+            for (Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
 
             tx.commit();    // 영속성 컨텍스트가 DB에 저장되는 시점
         } catch (Exception e) {

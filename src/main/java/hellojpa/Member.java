@@ -20,7 +20,7 @@ public class Member {
 
     // 객체 연관관계 매핑
     @ManyToOne  // N:1
-    @JoinColumn(name = "TEAM_ID")   // 조인해야 할 컬럼명
+    @JoinColumn(name = "TEAM_ID")   // 조인해야 할 컬럼명 & 연관관계 주인(외래키가 있는 곳을 주인으로 설정 권장)
     private Team team;
 
     public Long getId() {
