@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -22,18 +21,15 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);   // 객체 연관관계 매핑
+            member.changeTeam(team);
             em.persist(member);
+
+//            team.getMembers().add(member);  // 양방향 연관관계에서 순수 객체 상태를 고려해서 항상 양쪽에 값 설정하기.
 
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
 
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
-            }
 
             tx.commit();    // 영속성 컨텍스트가 DB에 저장되는 시점
         } catch (Exception e) {
